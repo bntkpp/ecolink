@@ -14,13 +14,18 @@ class Usuario(AbstractUser):
 
 
 class Actividad(models.Model):
-    tipo_actividad = [
+    TIPO_ACTIVIDAD_CHOICES = [
         ("limpieza", "Limpieza"),
         ("reforestacion", "Reforestación"),
         ("reciclaje", "Reciclaje"),
         ("educacion", "Educación Ambiental"),
         ("otro", "Otro"),
     ]
+    tipo_actividad = models.CharField(
+        max_length=20,
+        choices=TIPO_ACTIVIDAD_CHOICES,
+        default="otro"
+    )
     titulo = models.CharField(max_length=100)
     descripcion = models.TextField()
     fecha = models.DateField()
@@ -62,6 +67,12 @@ class RecursoEducativo(models.Model):
     archivo = models.FileField(upload_to="recursos_educativos/", blank=True, null=True)
     enlace = models.URLField(blank=True, null=True)
     fecha_publicacion = models.DateField(auto_now_add=True)
+    categoria_material = models.CharField(max_length=100, default="otrorecurso", choices=[
+        ("articulo", "Artículo"),
+        ("video", "Video"),
+        ("infografia", "Infografía"),
+        ("otro", "Otro"),
+    ])
 
     def __str__(self):
         return self.titulo
